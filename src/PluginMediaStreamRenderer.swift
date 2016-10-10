@@ -35,8 +35,8 @@ class PluginMediaStreamRenderer : NSObject, RTCEAGLVideoViewDelegate {
 
 		self.videoView.userInteractionEnabled = false
 
-		// Place the video element view inside the WebView's superview
-		self.webView.superview?.addSubview(self.elementView)
+		// Place the video element view inside the WebView's superview (below the webView)
+		self.webView.superview?.insertSubview(self.elementView, belowSubview: self.webView)
 	}
 
 
@@ -190,7 +190,7 @@ class PluginMediaStreamRenderer : NSObject, RTCEAGLVideoViewDelegate {
 
                 // if the zIndex is 0 (the default) bring the view to the top, last one wins
                 if zIndex == 0 {
-			self.webView.superview?.bringSubviewToFront(self.elementView)
+									//self.webView.superview?.bringSubviewToFront(self.elementView)
                 }
 
 		if !mirrored {
@@ -208,6 +208,20 @@ class PluginMediaStreamRenderer : NSObject, RTCEAGLVideoViewDelegate {
 		self.elementView.layer.cornerRadius = CGFloat(borderRadius)
 	}
 
+
+	func snapshot() -> String{
+		NSLog("PluginMediaStreamRenderer#snapshot()")
+
+		// Create the UIImage
+		UIGraphicsBeginImageContextWithOptions(self.videoView.bounds.size, true, 0.0)
+		self.videoView.drawViewHierarchyInRect(self.videoView.bounds, afterScreenUpdates: true)
+
+		self.videoView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+		let image = UIGraphicsGetImageFromCurrentImageContext()
+		UIGraphicsEndImageContext()
+		let imageData = UIImageJPEGRepresentation(image, 0.8)
+		return imageData!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+	}
 
 	func close() {
 		NSLog("PluginMediaStreamRenderer#close()")

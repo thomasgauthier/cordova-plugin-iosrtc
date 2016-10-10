@@ -341,6 +341,25 @@ class iosrtcPlugin : CDVPlugin {
 		}
 	}
 
+	func MediaStreamRenderer_snapshot(command: CDVInvokedUrlCommand) {
+			NSLog("iosrtcPlugin#MediaStreamRenderer_snapshot()")
+
+			let id = command.argumentAtIndex(0) as! Int
+			let pluginMediaStreamRenderer = self.pluginMediaStreamRenderers[id]
+
+			if pluginMediaStreamRenderer == nil {
+					NSLog("iosrtcPlugin#MediaStreamRenderer_snapshot() | ERROR: pluginMediaStreamRenderer with id=%@ does not exist", String(id))
+					return
+			}
+
+			let base64 = pluginMediaStreamRenderer!.snapshot()
+
+			let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: base64)
+
+			self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+
+	}
+
 
 	func RTCPeerConnection_close(command: CDVInvokedUrlCommand) {
 		NSLog("iosrtcPlugin#RTCPeerConnection_close()")
