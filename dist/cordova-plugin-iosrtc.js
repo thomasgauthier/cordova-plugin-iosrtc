@@ -2350,6 +2350,7 @@ module.exports = {
 	RTCIceCandidate:       RTCIceCandidate,
 	MediaStream:           MediaStream,
 	MediaStreamTrack:      MediaStreamTrack,
+	mediaStreamRenderers:  mediaStreamRenderers,
 
 	// Expose a function to refresh current videos rendering a MediaStream.
 	refreshVideos:         refreshVideos,

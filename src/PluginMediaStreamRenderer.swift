@@ -219,7 +219,7 @@ class PluginMediaStreamRenderer : NSObject, RTCEAGLVideoViewDelegate {
 		self.videoView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
 		let image = UIGraphicsGetImageFromCurrentImageContext()
 		UIGraphicsEndImageContext()
-		let imageData = UIImageJPEGRepresentation(image, 0.8)
+		let imageData = UIImageJPEGRepresentation(image!, 0.8)
 		return imageData!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
 	}
 
